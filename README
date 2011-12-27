@@ -1,0 +1,10 @@
+Modal dialogs in JavaScript.  Depends on MooTools.
+
+USAGE
+
+    veneer.open($("something"), 400, 400);
+    veneer.close();
+
+NOTE
+
+Random stupid stuff is not included.  If you want next and previous buttons, put them somewhere and attach onclick handlers.
