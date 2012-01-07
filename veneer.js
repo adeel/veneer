@@ -1,12 +1,6 @@
 var veneer = (function() {
   var self = {};
 
-  function add_observer(overlay) {
-    overlay.addEvent("click", function() {
-      self.close();
-    });
-  }
-
   function scale_dimensions_to_fit_in_box(width, height, max_width, max_height) {
     if (width > max_width) {
       height = max_width * (height / width);
@@ -32,6 +26,12 @@ var veneer = (function() {
       height: dim.height,
       left: (window_size.x - dim.width) / 2.0,
       top: (window_size.y - dim.height) / 2.0
+    });
+  }
+
+  function add_observer(overlay) {
+    overlay.addEvent("click", function() {
+      self.close();
     });
   }
 
