@@ -7,7 +7,7 @@ var veneer = (function() {
     });
   }
 
-  self.scale_dimensions_to_fit_in_box = function(width, height, max_width, max_height) {
+  function scale_dimensions_to_fit_in_box(width, height, max_width, max_height) {
     if (width > max_width) {
       height = max_width * (height / width);
       width = max_width;
@@ -19,13 +19,13 @@ var veneer = (function() {
     return {width: Math.floor(width), height: Math.floor(height)};
   }
 
-  self.scale_dimensions_to_fit_in_window = function(width, height) {
+  function scale_dimensions_to_fit_in_window(width, height) {
     var window_size = window.getSize();
-    return self.scale_dimensions_to_fit_in_box(width, height, window_size.x - 20, window_size.y - 20);
+    return scale_dimensions_to_fit_in_box(width, height, window_size.x - 20, window_size.y - 20);
   }
 
   self.resize = function(dialog, width, height) {
-    var dim = self.scale_dimensions_to_fit_in_window(parseInt(width), parseInt(height));
+    var dim = scale_dimensions_to_fit_in_window(parseInt(width), parseInt(height));
     var window_size = window.getSize();
     dialog.setStyles({
       width: dim.width,
