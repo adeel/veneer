@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Veneer</title>
+
+    <link href="style.css" media="screen" rel="stylesheet" />
+
+    <script src="scripts/mootools.js"></script>
+    <script src="scripts/veneer/veneer.js"></script>
+    <link href="scripts/veneer/veneer.css" media="screen" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="header">
+      <h1 class="heading">Veneer</h1>
+      <p class="subheading"><a href="https://github.com/adeel/veneer">Source / Download</a></p>
+    </div>
+    <div class="examples">
+      <div class="example">
+        <h2><a href="#" id="example-1-trigger">Example 1: Image with known dimensions.</a></h2>
+        <pre><code>$(&quot;example-1-trigger&quot;).addEvent(&quot;click&quot;, function() {
+  veneer.open($(&quot;example-1-image&quot;), 500, 434);
+});</pre></code>
+      </div>
+      <div class="example">
+        <h2><a href="#" id="example-2-trigger">Example 2: Image with unknown dimensions.</a></h2>
+        <pre><code>$(&quot;example-2-trigger&quot;).addEvent(&quot;click&quot;, function() {
+  veneer.open($(&quot;example-2-image&quot;));
+});</pre></code>
+      </div>
+      <div class="example">
+        <h2><a href="#" id="example-3-trigger">Example 3: Set of image, video, and arbitrary HTML.</a></h2>
+        <pre><code>var example_3 = (function() {
+  var self = {};
+  
+  self.open = function(index) {
+    self.close();
+    veneer.open($(&quot;example-3-item-&quot; + index));
+    add_arrows();
+  }
+
+  self.close = function() {
+    veneer.close();
+    remove_arrows();
+  }
+
+  function add_arrows() {
+    var left_arrow = new Element(&quot;.left_arrow&quot;, {html: &quot;&amp;larr;&quot;});
+    var right_arrow = new Element(&quot;.right_arrow&quot;, {html: &quot;&amp;rarr;&quot;});
+    left_arrow.inject(document.getElement(&quot;body&quot;));
+    right_arrow.inject(document.getElement(&quot;body&quot;));
+
+    position_arrow(left_arrow);
+    position_arrow(right_arrow);
+
+    observe_arrows(left_arrow, right_arrow);
+    observe_overlay_and_remove_arrows();
+  }
+
+  function get_open_index() {
+    return parseInt(document.getElement(&quot;.veneer_modal&quot;).getFirst().get(&quot;index&quot;));
+  }
+
+  function observe_arrows(left_arrow, right_arrow) {
+    right_arrow.addEvent(&quot;click&quot;, function() {
+      self.open((get_open_index() + 1) % 3);
+    });
+    left_arrow.addEvent(&quot;click&quot;, function() {
+      self.open((get_open_index() + 2) % 3);
+    });
+  }
+
+  function observe_overlay_and_remove_arrows() {
+    var overlay = document.getElement(&quot;.veneer_overlay&quot;);
+    if (overlay) {
+      overlay.addEvent(&quot;click&quot;, function(ev) {
+        remove_arrows();
+      });
+    }
+  }
+
+  function remove_arrows() {
+    var left_arrow = document.getElement(&quot;.left_arrow&quot;);
+    var right_arrow = document.getElement(&quot;.right_arrow&quot;);
+
+    if (left_arrow) {
+      left_arrow.dispose();
+    }
+    if (right_arrow) {
+      right_arrow.dispose();
+    }
+  }
+
+  function position_arrow(arrow) {
+    arrow.setStyle(&quot;top&quot;, ((window.getSize().y - arrow.getSize().y) / 2) + &quot;px&quot;);
+  }
+
+  return self;
+})();
+
+$(&quot;example-3-trigger&quot;).addEvent(&quot;click&quot;, function() {
+  e.stop();
+  example_3.open(0);
+  return false;
+});</code></pre>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>It was less work for me to write Veneer&mdash;it&rsquo;s 75 lines&mdash;than to integrate with an existing modal dialog plugin.  I hope it&rsquo;s existence changes the situation.</p>
+      <p><a href="http://adeel.ru">Adeel Ahmad Khan</a></p>
+    </div>
+
+    <div id="media-for-examples">
+      <img id="example-1-image"
+           src="http://farm4.staticflickr.com/3153/5869405365_f6efdbbeaf.jpg" />
+      <img id="example-2-image"
+           src="http://farm5.staticflickr.com/4074/4828450756_80f5fd867a.jpg" />
+      <img id="example-3-item-0" index="0"
+           src="http://farm4.staticflickr.com/3171/5869963094_c3fe70f508.jpg" />
+      <iframe id="example-3-item-1" index="1"
+              width="560" height="315"
+              src="http://www.youtube.com/embed/JyqaKe9sR5k" frameborder="0" ></iframe>
+      <div id="example-3-item-2" index="2" style="width: 300px; padding: 0 10px">
+        <p><strong>Emerge yourself with the best ideas of humanities. And integrate them.</strong></p>
+        <p><em>Steve Jobs</em></p>
+        <p><a href="#" onclick="example_3.close(); return false;">Click here to close.</a></p>
+      </div>
+    </div>
+
+    <script>
+      $("example-1-trigger").addEvent("click", function() {
+        veneer.open($("example-1-image"), 500, 434);
+      });
+      
+      $("example-2-trigger").addEvent("click", function() {
+        veneer.open($("example-2-image"));
+      });
+
+      var example_3 = (function() {
+        var self = {};
+        
+        self.open = function(index) {
+          self.close();
+          veneer.open($("example-3-item-" + index));
+          add_arrows();
+        }
+
+        self.close = function() {
+          veneer.close();
+          remove_arrows();
+        }
+
+        function add_arrows() {
+          var left_arrow = new Element(".left_arrow", {html: "&larr;"});
+          var right_arrow = new Element(".right_arrow", {html: "&rarr;"});
+          left_arrow.inject(document.getElement("body"));
+          right_arrow.inject(document.getElement("body"));
+
+          position_arrow(left_arrow);
+          position_arrow(right_arrow);
+
+          observe_arrows(left_arrow, right_arrow);
+          observe_overlay_and_remove_arrows();
+        }
+
+        function get_open_index() {
+          return parseInt(document.getElement(".veneer_modal").getFirst().get("index"));
+        }
+
+        function observe_arrows(left_arrow, right_arrow) {
+          right_arrow.addEvent("click", function() {
+            self.open((get_open_index() + 1) % 3);
+          });
+          left_arrow.addEvent("click", function() {
+            self.open((get_open_index() + 2) % 3);
+          });
+        }
+
+        function observe_overlay_and_remove_arrows() {
+          var overlay = document.getElement(".veneer_overlay");
+          if (overlay) {
+            overlay.addEvent("click", function(ev) {
+              remove_arrows();
+            });
+          }
+        }
+
+        function remove_arrows() {
+          var left_arrow = document.getElement(".left_arrow");
+          var right_arrow = document.getElement(".right_arrow");
+
+          if (left_arrow) {
+            left_arrow.dispose();
+          }
+          if (right_arrow) {
+            right_arrow.dispose();
+          }
+        }
+
+        function position_arrow(arrow) {
+          arrow.setStyle("top", ((window.getSize().y - arrow.getSize().y) / 2) + "px");
+        }
+
+        return self;
+      })();
+
+      $("example-3-trigger").addEvent("click", function(e) {
+        e.stop();
+        example_3.open(0);
+        return false;
+      });
+    </script>
+  </body>
+</html>
