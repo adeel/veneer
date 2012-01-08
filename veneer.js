@@ -18,15 +18,19 @@ var veneer = (function() {
     return scale_dimensions_to_fit_in_box(width, height, window_size.x - 20, window_size.y - 20);
   }
 
-  self.resize = function(dialog, width, height) {
+  self.resize = function(modal, width, height) {
     var dim = scale_dimensions_to_fit_in_window(parseInt(width), parseInt(height));
     var window_size = window.getSize();
-    dialog.setStyles({
+    modal.setStyles({
       width: dim.width,
       height: dim.height,
       left: (window_size.x - dim.width) / 2.0,
       top: (window_size.y - dim.height) / 2.0
     });
+  }
+
+  self.autoresize = function(modal) {
+    self.resize(modal, modal.getSize().x, modal.getSize().y);
   }
 
   function add_observer(overlay) {
@@ -38,25 +42,27 @@ var veneer = (function() {
   self.open = function(element, width, height) {
     veneer.close();
 
-    element = element.clone();
-
     var body = document.getElement("body");
-
-    var dialog = new Element(".veneer_dialog");
-    element.inject(dialog);
-    dialog.inject(body);
+    var modal = new Element(".veneer_modal");
+    element.clone().inject(modal);
+    modal.inject(body);
 
     var overlay = new Element(".veneer_overlay");
     overlay.inject(body);
 
-    self.resize(dialog, width, height);
+    if (width && height) {
+      self.resize(modal, width, height);
+    } else {
+      self.autoresize(modal);
+    }
+    
     add_observer(overlay);
   };
 
   self.close = function() {
-    var dialog = document.getElement(".veneer_dialog");
-    if (dialog) {
-      dialog.dispose();
+    var modal = document.getElement(".veneer_modal");
+    if (modal) {
+      modal.dispose();
     }
     var overlay = document.getElement(".veneer_overlay");
     if (overlay) {
