@@ -30,7 +30,10 @@ var veneer = (function() {
   }
 
   self.autoresize = function(modal) {
-    self.resize(modal, modal.getSize().x, modal.getSize().y);
+    // doesn't working in chrome without a timeout
+    window.setTimeout(function() {
+      self.resize(modal, modal.getSize().x, modal.getSize().y);
+    }, 5);
   }
 
   function add_observer(overlay) {
