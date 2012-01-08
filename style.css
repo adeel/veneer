@@ -6,13 +6,13 @@ body {
 }
 
 a {
-  color: #b36161;
+  color: #555;
   text-decoration: none;
   padding-bottom: 1px;
-  border-bottom: 1px solid #f4dbdb;
+  border-bottom: 1px solid #ccc;
 }
   a:hover {
-    border-bottom: 1px solid #b36161;
+    border-bottom: 1px solid #555;
   }
 
 /**/
@@ -22,7 +22,14 @@ a {
   margin: 10px auto;
 }
   .header .heading {
-    margin: 30px 0 7px 0;
+    margin: 30px 0 0 0;
+  }
+  .header .subheading {
+    margin: 10px 0 0;
+    font-size: 1em;
+  }
+  .links {
+    margin: 7px 0;
   }
 
 /**/
